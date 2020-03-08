@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Don tou timi</title>
+
+  <style>
+    canvas {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="quadrado.js"></script>
+  <script src="meteoro.js"></script>
+  <script src="movimento.js"></script>
+  <script src="colisao.js"></script>
+  <script src="preJogo.js"></script>
+  <script src="posJogo.js"></script>
+  <script>
+
+
+    var canvas, ALTURA, LARGURA, ctx, pontos = 0, recorde;
+
+    var estados = {
+      jogar: 0,
+      jogando: 1,
+      perdeu: 2
+    }
+
+    var estadoJogo;
+
+    bagui = new Quadrado();
+
+
+    function main() {
+
+      criarCanvas();
+
+      document.addEventListener("mousedown", clique);
+
+      estadoJogo = estados.jogar;
+
+      recorde = localStorage.getItem("recorde");
+      if(recorde == null)
+        recorde = 0;
+
+      gameLoop();
+    }
+
+    function criarCanvas() {
+      ALTURA = window.innerHeight;
+      LARGURA = window.innerWidth;
+
+      if (LARGURA >= 500) {
+        LARGURA = 600;
+        ALTURA = 600;
+      }
+      canvas = document.createElement("canvas");
+
+      canvas.width = LARGURA;
+      canvas.height = ALTURA;
+      canvas.style.border = "2px solid blue";
+
+      ctx = canvas.getContext("2d");
+
+      document.body.appendChild(canvas);
+    }
+
+    function desenha() {
+
+      //fundo
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, LARGURA, ALTURA);
+
+      //pontuação
+      ctx.fillStyle = "white";
+      ctx.font = "50px Arial";
+      ctx.fillText(pontos, 10, 50);
+
+      if (estadoJogo == estados.jogando){
+        bagui.desenha();
+  
+        meteoros.forEach(function (meteoro) {
+          meteoro.desenha();
+        });
+      }
+
+      else if(estadoJogo == estados.perdeu){
+        menuPerdeu();
+      }
+
+      else if (estadoJogo == estados.jogar){
+        menuInicio();
+      }
+    }
+
+    function clique(){
+      switch (estadoJogo) {
+        case 0:
+        case 2:
+          estadoJogo = estados.jogando;
+          pontos = 0;
+          gerador();
+        default:
+          break;
+      }
+    }
+
+    
+
+    
+    function gameLoop() {
+      
+      if (estadoJogo == estados.jogando){
+        movimentoBagui();
+        movimentoMeteoros();
+        verificaColisao();
+      }
+      
+      desenha();
+      
+      requestAnimationFrame(gameLoop);
+    }
+    
+    //inicializa o jogo
+    main();
+    
+  </script>
+</body>
+
+</html>
