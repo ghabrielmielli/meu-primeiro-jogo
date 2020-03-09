@@ -25,6 +25,8 @@
   <script src="colisao.js"></script>
   <script src="preJogo.js"></script>
   <script src="posJogo.js"></script>
+  <script src="Sprite.js"></script>
+  <script src="jogador.js"></script>
   <script>
 
 
@@ -38,7 +40,9 @@
 
     var estadoJogo;
 
-    bagui = new Quadrado();
+
+
+    bagui = new Jogador();
 
 
     function main() {
@@ -101,6 +105,7 @@
       else if (estadoJogo == estados.jogar){
         menuInicio();
       }
+
     }
 
     function clique(){

@@ -8,7 +8,7 @@ var cores = ["red", "orange", "yellow", "blue"];
 function gerarMeteoro(aceleracao, velocidade){
     var meteoro = new Quadrado();
     meteoro.cor = corMeteoro;
-    meteoro.altura = meteoro.largura = randomInt(15, 50);
+    meteoro.altura = meteoro.largura = randomInt(10, 40);
 
     meteoro.y = 0 - meteoro.altura;
     meteoro.x = randomInt(0, LARGURA - meteoro.largura);
